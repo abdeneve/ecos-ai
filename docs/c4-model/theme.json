@@ -1,0 +1,79 @@
+{
+  "name": "Cinematic Sci-Fi Theme",
+  "description": "Tema premium de alto contraste para arquitecturas B2B.",
+  "elements": [
+    {
+      "tag": "Element",
+      "color": "#FFFFFF",
+      "stroke": "#333333",
+      "strokeWidth": 2
+    },
+    {
+      "tag": "Person",
+      "background": "#00E5FF",
+      "color": "#0A0A0C",
+      "stroke": "#00B8CC",
+      "shape": "Person"
+    },
+    {
+      "tag": "Agente",
+      "background": "#1A1A1D",
+      "color": "#FFFFFF",
+      "stroke": "#00E5FF",
+      "strokeWidth": 3
+    },
+    {
+      "tag": "Sistema Central",
+      "background": "#121215",
+      "color": "#FFFFFF",
+      "stroke": "#00E5FF",
+      "strokeWidth": 4,
+      "shape": "RoundedBox"
+    },
+    {
+      "tag": "Externo",
+      "background": "#1A1A1D",
+      "color": "#A0A0A0",
+      "stroke": "#4A4A4A",
+      "shape": "RoundedBox"
+    },
+    {
+      "tag": "Backend",
+      "background": "#0A0A0C",
+      "color": "#FFFFFF",
+      "stroke": "#00E5FF",
+      "shape": "Hexagon"
+    },
+    {
+      "tag": "Frontend",
+      "background": "#1A1A1D",
+      "color": "#FFFFFF",
+      "stroke": "#FFFFFF",
+      "shape": "WebBrowser"
+    },
+    {
+      "tag": "BaseDeDatos",
+      "background": "#0A0A0C",
+      "color": "#FFFFFF",
+      "stroke": "#00E5FF",
+      "shape": "Cylinder"
+    },
+    {
+      "tag": "Mensajeria",
+      "background": "#0A0A0C",
+      "color": "#FFFFFF",
+      "stroke": "#FF0055", 
+      "shape": "Pipe"
+    }
+  ],
+  "relationships": [
+    {
+      "tag": "Relationship",
+      "color": "#00E5FF",
+      "stroke": "#00E5FF",
+      "routing": "Orthogonal",
+      "thickness": 2,
+      "dashed": false
+    }
+  ]
+}

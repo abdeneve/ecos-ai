@@ -1,0 +1,68 @@
+services:
+  # ---------------------------------------------------------
+  # Capa de Mensajería (Surge Protection - Redpanda)
+  # ---------------------------------------------------------
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v23.2.1
+    container_name: ecos-ai-event-broker
+    command:
+      - redpanda
+      - start
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --overprovisioned
+      - --node-id 0
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      # El external listener en localhost permite que Windows host se comunique con el broker
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+      - "9644:9644" # Admin API
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ---------------------------------------------------------
+  # Capa de Memoria Rápida (Estado e Idempotencia - Redis)
+  # ---------------------------------------------------------
+  redis:
+    image: redis:7.2-alpine
+    container_name: ecos-ai-state-cache
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ---------------------------------------------------------
+  # Capa de Persistencia (Anti Hot-Partitions - ScyllaDB)
+  # ---------------------------------------------------------
+  scylla:
+    image: scylladb/scylla:5.2.0
+    container_name: ecos-ai-history-db
+    # SMP 1 limita a un core, Developer Mode ignora chequeos estrictos de kernel (necesario en WSL2)
+    command: --smp 1 --memory 1G --overprovisioned 1 --developer-mode 1
+    ports:
+      - "9042:9042" # Puerto nativo CQL
+    volumes:
+      - scylla_data:/var/lib/scylla
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE KEYSPACES'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  redpanda_data:
+  redis_data:
+  scylla_data:

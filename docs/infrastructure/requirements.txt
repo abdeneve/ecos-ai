@@ -1,0 +1,10 @@
+# ==============================================================================
+# Motor de Generación de Arquitectura Headless (Docs-as-Code)
+# ==============================================================================
+
+# Librería principal para la topología de infraestructura en Python
+diagrams
+
+# Wrapper de Python para Graphviz (usualmente instalado automáticamente por 'diagrams', 
+# pero se declara explícitamente para garantizar compatibilidad en pipelines CI/CD)
+graphviz
