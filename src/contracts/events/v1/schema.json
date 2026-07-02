@@ -1,0 +1,34 @@
+{
+  "$id": "https://ecos-ai/contracts/events/v1/conversation-event.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ConversationEvent",
+  "description": "Event published by the ingress webhook and consumed by the agent worker, partitioned by tenant_id.",
+  "type": "object",
+  "required": ["tenant_id", "message_id", "occurred_at", "payload", "trace_id"],
+  "additionalProperties": true,
+  "properties": {
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies the B2B tenant. Used as the Redpanda partition key to preserve per-tenant ordering."
+    },
+    "message_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of the inbound WhatsApp message, used for idempotency."
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC3339 timestamp of when the source message was received."
+    },
+    "payload": {
+      "description": "Opaque message payload (e.g. the WhatsApp message body). Schema of the payload itself is not constrained at this contract level."
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Distributed tracing context propagated from the ingress webhook through to the agent worker."
+    }
+  }
+}
